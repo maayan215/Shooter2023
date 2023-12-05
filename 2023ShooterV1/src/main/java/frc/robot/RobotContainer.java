@@ -3,32 +3,48 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj.PS4Controller;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+//import edu.wpi.first.wpilibj.XboxController;
+//import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.ShooterSubsystem;
+//import frc.robot.Constants.ShooterConstants;
+//import frc.robot.commands.AutoShooterCommand;
+import frc.robot.commands.HomeingCommand;
+import frc.robot.commands.PresetShooterCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
- * subsystems, commands, and trigger mappings) should be declared here.
+ * subsystems, commands, and trigger mappings) should be fds here.
  */
 public class RobotContainer {
+
+  ShooterSubsystem m_ShooterSubsystem = ShooterSubsystem.GetInstance();
+  
+  
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  public static PS4Controller controller = new PS4Controller(0);
+  // Configure the trigger bindings
+  JoystickButton Triangle = new JoystickButton(controller, PS4Controller.Button.kTriangle.value);
+  /*JoystickButton Circle = new JoystickButton(controller, PS4Controller.Button.kCircle.value);
+  JoystickButton Square = new JoystickButton(controller, PS4Controller.Button.kSquare.value);
+  JoystickButton Cross = new JoystickButton(controller, PS4Controller.Button.kCross.value);
+  JoystickButton RB = new JoystickButton(controller, PS4Controller.Button.kR1.value);
+  JoystickButton LB = new JoystickButton(controller, PS4Controller.Button.kL1.value); */
+
+  
+
+
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    // Configure the trigger bindings
     configureBindings();
   }
 
@@ -43,12 +59,17 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(m_exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_exampleSubsystem));
-
+    //RB.onTrue(new AutoShooterCommand(m_ShooterSubsystem));
+    // Triangle.onTrue(new PresetShooterCommand(m_ShooterSubsystem, Constants.ShooterConstants.PresetAVelocity, Constants.ShooterConstants.PresetAAngle));
+    Triangle.onTrue(new InstantCommand(()-> m_ShooterSubsystem.testShoot()));
+    //Triangle.onTrue(new PresetShooterCommand(m_ShooterSubsystem, Constants.ShooterConstants.PresetAVelocity, Constants.ShooterConstants.PresetAAngle));
+    //Circle.onTrue(new PresetShooterCommand(m_ShooterSubsystem, Constants.ShooterConstants.PresetBVelocity, Constants.ShooterConstants.PresetBAngle));
+    //Cross.onTrue(new PresetShooterCommand(m_ShooterSubsystem, Constants.ShooterConstants.PresetYVelocity, Constants.ShooterConstants.PresetYAngle));
+    //LB.onTrue(new HomeingCommand(m_ShooterSubsystem, null)); 
+    
+    
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
   }
 
   /**
@@ -56,8 +77,7 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
-  }
+
+
+  
 }
