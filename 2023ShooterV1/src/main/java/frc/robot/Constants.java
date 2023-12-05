@@ -4,10 +4,9 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
-
-import SpLib.hardware.motor_controller.TalonFXConstants;
+//import com.ctre.phoenix.motorcontrol.NeutralMode;
+//import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
+//import SpLib.hardware.motor_controller.TalonFXConstants;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -47,25 +46,8 @@ public final class Constants {
     public static final int HoodId = 62;
     public static final int ConvyorId = 53;
 
-    private static TalonFXInvertType k_ShooterInvertType;
-    private static int k_ShooterControllerId;
     public static Double k_FlywheelGearRatio;
     public static double stableBoolTimeThreshold;
-    
-
-    
-    //master
-    public static final int k_flyWheelControllerId = 60;// TODO: update ID
-    public static final TalonFXInvertType k_flyWheelInvertType = TalonFXInvertType.Clockwise;
-    public static final TalonFXConstants flyWheelConstants = new TalonFXConstants(Constants.ShooterConstants.k_flyWheelControllerId,
-    Constants.ShooterConstants.k_flyWheelInvertType);
-
-    //slave
-    public static final int k_flyWheelSlaveControllerId = 61;// TODO: update ID
-    public static final TalonFXInvertType k_flyWheelSlaveInvertType = TalonFXInvertType.Clockwise;
-    public static final TalonFXConstants flyWheelSlaveConstants = new TalonFXConstants(Constants.ShooterConstants.k_flyWheelSlaveControllerId,
-    Constants.ShooterConstants.k_flyWheelSlaveInvertType);
-
     
     // shooter pid def======
     public static double shooter_pid_kp = 0.2; 

@@ -6,7 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+//import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 //import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 //import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
@@ -14,12 +14,12 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
-import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
+//import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import SpLib.hardware.motor_controller.ExtendedTalonFXConfiguration;
-import SpLib.hardware.motor_controller.TalonFXFactory;
+//import SpLib.hardware.motor_controller.ExtendedTalonFXConfiguration;
+//import SpLib.hardware.motor_controller.TalonFXFactory;
 //import SpLib.util.conversions.EncoderConversions;
 import frc.robot.Constants;
 
@@ -50,6 +50,8 @@ public class ShooterSubsystem extends SubsystemBase {
   m_conveyor = new VictorSPX(53);
   m_conveyor.setInverted(true);
 
+    m_FlywheelSlave.follow(m_FlyWheel);
+
     m_FlyWheel.config_kP(0, Constants.ShooterConstants.shooter_pid_kp);
     m_FlyWheel.config_kI(0, Constants.ShooterConstants.shoter_pid_ki);
     m_FlyWheel.config_kD(0, Constants.ShooterConstants.shoter_pid_kd);
@@ -77,11 +79,11 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void SetFlywheelVelocity(double velocity){
-    m_FlyWheel.set(ControlMode.PercentOutput, 0.3);
+    m_FlyWheel.set(ControlMode.Velocity, velocity);
     //m_FlyWheel.set(TalonFXControlMode.Velocity, velocity);
-    System.out.println("setting flywheel velocity " + velocity);
-    
   }
+
+
 
   public void SetHoodPresetOutput(double speed){
     m_Hood.set(ControlMode.PercentOutput, speed);
@@ -124,10 +126,7 @@ public class ShooterSubsystem extends SubsystemBase {
     
   }
 
-  public void testShoot(){
-    m_FlyWheel.set(ControlMode.PercentOutput, 0.3);
-  }
-
+  
 
   public static ShooterSubsystem GetInstance(){
     if (m_instace == null) {

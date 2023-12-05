@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 import SpLib.util.bool.filters.StableBoolean;
+import SpLib.util.conversions.UnitsConversions;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
@@ -40,6 +41,7 @@ public class AutoShooterCommand extends CommandBase {
     double rpm = 60 * (V0 / (Math.PI * (R + 2 * r)));
 
     //m_shooter.SetFlyWheelRPM(rpm, ((r+R)/2));
+    m_shooter.SetFlywheelVelocity(UnitsConversions.RPMToMPS(rpm, r));
 
   }
 
@@ -53,7 +55,7 @@ public class AutoShooterCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
     //return m_stableBoolean.get((m_shooter.GetFlywheelRPM() < m_shooter.FlywheelTatgetRPM() + Constants.ShooterConstants.AllowedRPMError)); //TODO: check Target is same units as rpm
+    return false;
   }
 }
