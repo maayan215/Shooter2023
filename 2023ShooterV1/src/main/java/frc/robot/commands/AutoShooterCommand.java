@@ -5,7 +5,6 @@
 package frc.robot.commands;
 import SpLib.util.bool.filters.StableBoolean;
 import SpLib.util.conversions.UnitsConversions;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -13,6 +12,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class AutoShooterCommand extends CommandBase {
   private StableBoolean m_stableBoolean; 
   private ShooterSubsystem m_shooter; 
+  private double targetVelocity;
   /** Creates a new ShooterCommand. */
   public AutoShooterCommand(ShooterSubsystem shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -25,8 +25,6 @@ public class AutoShooterCommand extends CommandBase {
   @Override
   public void initialize() {
     m_stableBoolean.reset();
-    SmartDashboard.putBoolean("shot", false);
-
   } 
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -41,7 +39,8 @@ public class AutoShooterCommand extends CommandBase {
     double rpm = 60 * (V0 / (Math.PI * (R + 2 * r)));
 
     //m_shooter.SetFlyWheelRPM(rpm, ((r+R)/2));
-    m_shooter.SetFlywheelVelocity(UnitsConversions.RPMToMPS(rpm, r));
+    targetVelocity = UnitsConversions.RPMToMPS(rpm, r);
+    m_shooter.SetFlywheelVelocity(targetVelocity);
 
   }
 
@@ -55,7 +54,6 @@ public class AutoShooterCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    //return m_stableBoolean.get((m_shooter.GetFlywheelRPM() < m_shooter.FlywheelTatgetRPM() + Constants.ShooterConstants.AllowedRPMError)); //TODO: check Target is same units as rpm
-    return false;
+    return m_shooter.isFlyWheelAtTarget(targetVelocity);
   }
 }

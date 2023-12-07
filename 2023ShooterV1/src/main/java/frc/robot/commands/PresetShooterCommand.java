@@ -39,7 +39,7 @@ public class PresetShooterCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_shooter.SetFlywheelVelocity(0);
-    
+    m_shooter.SetFlywheelVelocity(0);
   }
 
   // Returns true when the command should end.

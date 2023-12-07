@@ -45,6 +45,7 @@ public final class Constants {
     public static final int FlywheelSlaveId = 61;
     public static final int HoodId = 62;
     public static final int ConvyorId = 53;
+    public static final double AllowedRPMError = 0;
 
     public static Double k_FlywheelGearRatio;
     public static double stableBoolTimeThreshold;

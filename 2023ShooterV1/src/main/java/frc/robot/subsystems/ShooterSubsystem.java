@@ -12,6 +12,8 @@ import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 //import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
+import SpLib.util.bool.filters.StableBoolean;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -31,7 +33,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private final VictorSPX m_conveyor;
   public static Boolean readyToShoot= false;  
   Timer time = new Timer();
-
+  private StableBoolean m_stableBoolean; 
   
 
   /** Creates a new ShooterSubsystem. */
@@ -47,8 +49,8 @@ public class ShooterSubsystem extends SubsystemBase {
     
     TalonFX m_Hood = new TalonFX(62);
 
-  m_conveyor = new VictorSPX(53);
-  m_conveyor.setInverted(true);
+    m_conveyor = new VictorSPX(53);
+    m_conveyor.setInverted(true);
 
     m_FlywheelSlave.follow(m_FlyWheel);
 
@@ -60,6 +62,8 @@ public class ShooterSubsystem extends SubsystemBase {
     m_Hood.config_kI(0, Constants.ShooterConstants.hood_pid_ki);
     m_Hood.config_kD(0, Constants.ShooterConstants.hood_pid_kd);
     m_Hood.config_kF(0, Constants.ShooterConstants.hood_pid_kf);
+
+    m_stableBoolean = new StableBoolean(Constants.ShooterConstants.stableBoolTimeThreshold);    
 
   }
 
@@ -121,11 +125,18 @@ public class ShooterSubsystem extends SubsystemBase {
     if (!time.hasElapsed(0.5)){
       m_conveyor.set(VictorSPXControlMode.PercentOutput, 0.3);
       System.out.println("shoot!");
+    }else {
+      m_conveyor.set(VictorSPXControlMode.PercentOutput, 0.0);
     }
     readyToShoot = false;
-    
+
   }
 
+  public boolean isFlyWheelAtTarget(double target){
+    boolean isAtTarget = m_stableBoolean.get((GetFlywheelRPM() < target + Constants.ShooterConstants.AllowedRPMError) && (GetFlywheelRPM() > target - Constants.ShooterConstants.AllowedRPMError)); //TODO: check Target is same units as rpm
+    return isAtTarget;
+
+  }
   
 
   public static ShooterSubsystem GetInstance(){
