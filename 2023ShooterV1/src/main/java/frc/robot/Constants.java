@@ -22,22 +22,17 @@ public final class Constants {
   }
   public static class ShooterConstants{
 
-    public static final double PresetXVelocity = 3000;
-    public static final double PresetXAngle = 25;
+    public static final double PresetXVelocity = 2090;
+    public static final double PresetXAngle = 26;
     public static final double PresetYVelocity = 3500;
     public static final double PresetYAngle = 30;
     public static final double PresetAAngle = 35;
     public static final double PresetAVelocity = 4000;
     public static final double PresetBAngle = 45;
-   public static final double PresetBVelocity = 4500;
-    public static final double FlyWheelKp = 0.5;
-    public static final double FlyWheelKi = 0.0;
-    public static final double FlyWheelKd = 0.5;
-    public static final double HoodKp = 0.2;
-    public static final double HoodKi = 0.0;
-    public static final double HoodKd = 0.0;
-
-    public static final double HoodCurrentLimit = 0;
+    public static final double PresetBVelocity = 4500;
+    
+    
+    public static final double HoodCurrentLimit = 9;
     public static final double FlywheelCurrentLimit = 0;
 
     //motor id
@@ -45,16 +40,19 @@ public final class Constants {
     public static final int FlywheelSlaveId = 61;
     public static final int HoodId = 62;
     public static final int ConvyorId = 53;
-    public static final double AllowedRPMError = 0;
+    public static final double AllowedRPMError = 500;
+    public static final double encoderResolution = 2048;
 
-    public static Double k_FlywheelGearRatio;
-    public static double stableBoolTimeThreshold;
+    public static Double k_FlywheelGearRatio = 48.0;
+    public static double stableBoolTimeThreshold = 0.25;
     
     // shooter pid def======
-    public static double shooter_pid_kp = 0.2; 
+    public static double shooter_pid_kp =0.5; 
     public static double shoter_pid_ki = 0.0;
     public static double shoter_pid_kd = 0.0;
     public static double shoter_pid_kf=0.054;
+    
+    
     //========================
     // hood angel pid ===========
     public static double hood_pid_kp = 0.5;

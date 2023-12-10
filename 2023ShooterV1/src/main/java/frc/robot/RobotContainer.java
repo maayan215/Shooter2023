@@ -4,6 +4,7 @@
 
 package frc.robot;
 import edu.wpi.first.wpilibj.PS4Controller;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 //import edu.wpi.first.wpilibj.XboxController;
 //import edu.wpi.first.wpilibj.PS4Controller.Button;
@@ -29,14 +30,14 @@ public class RobotContainer {
   
   
   // The robot's subsystems and commands are defined here...
-  public static PS4Controller controller = new PS4Controller(0);
+  public static XboxController controller = new XboxController(1);
   // Configure the trigger bindings
-  JoystickButton Triangle = new JoystickButton(controller, PS4Controller.Button.kTriangle.value);
-  JoystickButton Circle = new JoystickButton(controller, PS4Controller.Button.kCircle.value);
-  JoystickButton Square = new JoystickButton(controller, PS4Controller.Button.kSquare.value);
-  JoystickButton Cross = new JoystickButton(controller, PS4Controller.Button.kCross.value);
-  JoystickButton RB = new JoystickButton(controller, PS4Controller.Button.kR1.value);
-  JoystickButton LB = new JoystickButton(controller, PS4Controller.Button.kL1.value); 
+  JoystickButton Triangle = new JoystickButton(controller, XboxController.Button.kY.value);
+  JoystickButton Circle = new JoystickButton(controller, XboxController.Button.kB.value);
+  JoystickButton Square = new JoystickButton(controller, XboxController.Button.kX.value);
+  JoystickButton Cross = new JoystickButton(controller, XboxController.Button.kA.value);
+  JoystickButton RB = new JoystickButton(controller, XboxController.Button.kRightBumper.value);
+  JoystickButton LB = new JoystickButton(controller,XboxController.Button.kLeftBumper.value); 
 
   
 
@@ -60,13 +61,14 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    Triangle.onTrue(new PresetShooterCommand(m_ShooterSubsystem, Constants.ShooterConstants.PresetAVelocity, Constants.ShooterConstants.PresetAAngle));
-    Circle.onTrue(new PresetShooterCommand(m_ShooterSubsystem, Constants.ShooterConstants.PresetBVelocity, Constants.ShooterConstants.PresetBAngle));
-    Cross.onTrue(new PresetShooterCommand(m_ShooterSubsystem, Constants.ShooterConstants.PresetYVelocity, Constants.ShooterConstants.PresetYAngle));
     LB.onTrue(new HomeingCommand(m_ShooterSubsystem, null)); 
-    RB.onTrue(new AutoShooterCommand(m_ShooterSubsystem));
+    Square.onTrue(new PresetShooterCommand(m_ShooterSubsystem, 0.3, 26));
+    //Triangle.onTrue(new PresetShooterCommand(m_ShooterSubsystem, 2160, 32));
+    //Circle.onTrue(new PresetShooterCommand(m_ShooterSubsystem, 2200, 26));
     
-    
+    //Cross.onTrue(new PresetShooterCommand(m_ShooterSubsystem, 2580, 30));
+
+  
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
   }

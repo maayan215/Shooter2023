@@ -33,12 +33,12 @@ public class PresetShooterCommand extends CommandBase {
   @Override
   public void execute() {
     m_shooter.SetFlywheelVelocity(m_velocity);
+    //m_shooter.SetFlyWheelPrecentOutput(m_velocity);
     m_shooter.SetHoodAngle(m_angle);
   }
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooter.SetFlywheelVelocity(0);
     m_shooter.SetFlywheelVelocity(0);
   }
 
