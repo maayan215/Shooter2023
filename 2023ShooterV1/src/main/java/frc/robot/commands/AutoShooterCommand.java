@@ -12,7 +12,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class AutoShooterCommand extends CommandBase {
   private StableBoolean m_stableBoolean; 
   private ShooterSubsystem m_shooter; 
-  private double targetVelocity;
+  private double targetRPM;
   /** Creates a new ShooterCommand. */
   public AutoShooterCommand(ShooterSubsystem shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -39,8 +39,8 @@ public class AutoShooterCommand extends CommandBase {
     double rpm = 60 * (V0 / (Math.PI * (R + 2 * r)));
 
     //m_shooter.SetFlyWheelRPM(rpm, ((r+R)/2));
-    targetVelocity = UnitsConversions.RPMToMPS(rpm, r);
-    m_shooter.SetFlywheelVelocity(targetVelocity);
+    targetRPM = UnitsConversions.RPMToMPS(rpm, r);
+    m_shooter.SetFlywheelRPM(targetRPM);
 
   }
 
@@ -54,6 +54,6 @@ public class AutoShooterCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_shooter.isFlyWheelAtTarget(targetVelocity);
+    return m_shooter.isFlyWheelAtTarget(targetRPM);
   }
 }

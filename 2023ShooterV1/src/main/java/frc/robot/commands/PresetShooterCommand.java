@@ -11,13 +11,13 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 public class PresetShooterCommand extends CommandBase {
   private ShooterSubsystem m_shooter;
-  public double m_velocity;
+  public double m_RPM;
   public double m_angle;
 
   /** Creates a new PresetShooterCommand. */
-  public PresetShooterCommand(ShooterSubsystem shooter, double velocity, double angle) {
+  public PresetShooterCommand(ShooterSubsystem shooter, double RPM, double angle) {
     m_shooter = shooter;
-    m_velocity = velocity;
+    m_RPM = RPM;
     m_angle = angle;
 
     addRequirements(m_shooter);
@@ -32,14 +32,14 @@ public class PresetShooterCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooter.SetFlywheelVelocity(m_velocity);
+    m_shooter.SetFlywheelRPM(m_RPM);
     //m_shooter.SetFlyWheelPrecentOutput(m_velocity);
     m_shooter.SetHoodAngle(m_angle);
   }
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooter.SetFlywheelVelocity(0);
+    m_shooter.SetFlywheelRPM(0);
   }
 
   // Returns true when the command should end.

@@ -73,8 +73,9 @@ public class ShooterSubsystem extends SubsystemBase {
     return m_FlyWheel.getClosedLoopTarget(); 
   }
 
-  public void SetFlywheelVelocity(double velocity){
-    m_FlyWheel.set(ControlMode.Velocity, SpLib.util.conversions.EncoderConversions.RPMToTicksPer100ms(velocity, Constants.ShooterConstants.k_FlywheelGearRatio, Constants.ShooterConstants.encoderResolution));
+  /* */
+  public void SetFlywheelRPM(double RPM){
+    m_FlyWheel.set(ControlMode.Velocity, SpLib.util.conversions.EncoderConversions.RPMToTicksPer100ms(RPM, Constants.ShooterConstants.k_FlywheelGearRatio, Constants.ShooterConstants.encoderResolution));
   }
 
   public void SetFlyWheelPrecentOutput(double speed){
