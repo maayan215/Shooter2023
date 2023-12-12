@@ -42,6 +42,7 @@ public final class Constants {
     public static final int ConvyorId = 53;
     public static final double AllowedRPMError = 500;
     public static final double encoderResolution = 2048;
+    public static final double hoodGearRatio = 48;
 
     public static Double k_FlywheelGearRatio = 48.0;
     public static double stableBoolTimeThreshold = 0.25;

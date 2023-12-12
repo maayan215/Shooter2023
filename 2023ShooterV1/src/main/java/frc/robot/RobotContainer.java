@@ -5,6 +5,7 @@
 package frc.robot;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 //import edu.wpi.first.wpilibj.XboxController;
 //import edu.wpi.first.wpilibj.PS4Controller.Button;
@@ -43,6 +44,7 @@ public class RobotContainer {
 
 
 
+
   // Replace with CommandPS4Controller or CommandJoystick if needed
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -61,8 +63,10 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    LB.onTrue(new HomeingCommand(m_ShooterSubsystem, null)); 
-    Square.onTrue(new PresetShooterCommand(m_ShooterSubsystem, 0.3, 26));
+    
+    LB.onTrue(new HomeingCommand(m_ShooterSubsystem)); 
+    Square.onTrue(new PresetShooterCommand(m_ShooterSubsystem, 60, 15));
+
     //Triangle.onTrue(new PresetShooterCommand(m_ShooterSubsystem, 2160, 32));
     //Circle.onTrue(new PresetShooterCommand(m_ShooterSubsystem, 2200, 26));
     

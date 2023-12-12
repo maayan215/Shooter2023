@@ -18,7 +18,7 @@ public class HomeingCommand extends CommandBase {
   Timer timer = new Timer();
   private StableBoolean m_stableBoolean;
   /** Creates a new HomeingCommand. */
-  public HomeingCommand(ShooterSubsystem shooter,StableBoolean stableboolean) {
+  public HomeingCommand(ShooterSubsystem shooter) {
     m_shooter = shooter;
     m_stableBoolean = new StableBoolean(Constants.ShooterConstants.stableBoolTimeThreshold);
 
