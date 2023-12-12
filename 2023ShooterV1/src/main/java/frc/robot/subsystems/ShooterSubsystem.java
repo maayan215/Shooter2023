@@ -55,6 +55,7 @@ public class ShooterSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("FlyWheel RPM", GetFlywheelRPM());
     SmartDashboard.putNumber("Hood angle", GetHoodAngle());
     SmartDashboard.putNumber("flywheel ticls/100ms", m_FlyWheel.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("ClosedLoopError", m_FlywheelSlave.getClosedLoopError());
 
     SmartDashboard.putBoolean("Shoot", readyToShoot);
   }
@@ -122,6 +123,7 @@ public class ShooterSubsystem extends SubsystemBase {
     return m_stableBoolean.get((GetFlywheelRPM() < target + Constants.ShooterConstants.AllowedRPMError) && (GetFlywheelRPM() > target - Constants.ShooterConstants.AllowedRPMError)); //TODO: check Target is same units as rpm;
   }
 
+  //==========================================================================================================
   private void motorConfig(){
     m_Hood.setNeutralMode(NeutralMode.Coast);
     m_Hood.setInverted(TalonFXInvertType.Clockwise);
@@ -133,7 +135,7 @@ public class ShooterSubsystem extends SubsystemBase {
     m_Hood.configForwardSoftLimitThreshold(SpLib.util.conversions.EncoderConversions.ticksToDegrees(31, Constants.ShooterConstants.hoodGearRatio, Constants.ShooterConstants.encoderResolution));
     m_Hood.configReverseSoftLimitThreshold(SpLib.util.conversions.EncoderConversions.ticksToDegrees(-2, Constants.ShooterConstants.hoodGearRatio, Constants.ShooterConstants.encoderResolution));
     m_Hood.overrideSoftLimitsEnable(false);
-    //=====================================================
+    //==========================================================================================================
     // shooter config's=========================
     m_FlyWheel.setInverted(true);
     m_FlyWheel.enableVoltageCompensation(true);
@@ -147,7 +149,7 @@ public class ShooterSubsystem extends SubsystemBase {
     m_FlywheelSlave.set(ControlMode.Follower, m_FlyWheel.getDeviceID());
     m_FlywheelSlave.setInverted(TalonFXInvertType.OpposeMaster);
     m_FlywheelSlave.setStatusFramePeriod(StatusFrame.Status_1_General, 250, 0);
-  //=================================
+  //==========================================================================================================
 }
 
 public void pidConfig(){

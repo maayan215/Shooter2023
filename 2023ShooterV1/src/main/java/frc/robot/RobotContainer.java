@@ -3,17 +3,13 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 //import edu.wpi.first.wpilibj.XboxController;
 //import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.commands.AutoShooterCommand;
 //import frc.robot.Constants.ShooterConstants;
 //import frc.robot.commands.AutoShooterCommand;
 import frc.robot.commands.HomeingCommand;
@@ -65,16 +61,8 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     
     LB.onTrue(new HomeingCommand(m_ShooterSubsystem)); 
-    Square.onTrue(new PresetShooterCommand(m_ShooterSubsystem, 60, 15));
-
-    //Triangle.onTrue(new PresetShooterCommand(m_ShooterSubsystem, 2160, 32));
-    //Circle.onTrue(new PresetShooterCommand(m_ShooterSubsystem, 2200, 26));
+    Square.onTrue(new PresetShooterCommand(m_ShooterSubsystem, 2000, 15));
     
-    //Cross.onTrue(new PresetShooterCommand(m_ShooterSubsystem, 2580, 30));
-
-  
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
   }
 
   /**

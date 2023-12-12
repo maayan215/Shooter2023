@@ -3,9 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-
-import java.lang.invoke.ConstantCallSite;
-
 import SpLib.util.bool.filters.StableBoolean;
 import edu.wpi.first.wpilibj.Timer;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,7 +25,7 @@ public class HomeingCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_shooter.SetHoodPresetOutput(-0.3);
+    m_shooter.SetHoodPresetOutput(-0.2);
     m_stableBoolean.reset();
     timer.reset();
     timer.start();
@@ -42,8 +39,8 @@ public class HomeingCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooter.SetHoodPresetOutput(0);
     m_shooter.ResetHood();
+    m_shooter.SetHoodPresetOutput(0);
     
   }
 
