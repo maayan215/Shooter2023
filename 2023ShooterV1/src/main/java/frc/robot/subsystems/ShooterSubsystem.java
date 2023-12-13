@@ -46,6 +46,8 @@ public class ShooterSubsystem extends SubsystemBase {
     motorConfig();
     pidConfig();
     
+    SmartDashboard.putNumber("distance", 5.2);
+
     m_stableBoolean = new StableBoolean(Constants.ShooterConstants.stableBoolTimeThreshold);   
   }
   
@@ -56,6 +58,8 @@ public class ShooterSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("flywheel ticls/100ms", m_FlyWheel.getSelectedSensorVelocity());
     SmartDashboard.putNumber("ClosedLoopError", m_FlywheelSlave.getClosedLoopError());
     SmartDashboard.putBoolean("Shoot", readyToShoot);
+    SmartDashboard.putNumber("autoAngle", CalculateAngleFromDistance());
+    SmartDashboard.putNumber("autoRPM", CalculateRPMFromDistance());
   }
 
   public double GetFlywheelRPM() { 
@@ -67,7 +71,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void SetFlywheelRPM(double RPM){
-    m_FlyWheel.set(ControlMode.Velocity, SpLib.util.conversions.EncoderConversions.RPMToTicksPer100ms(RPM, Constants.ShooterConstants.k_FlywheelGearRatio, Constants.ShooterConstants.encoderResolution));
+    m_FlyWheel.set(ControlMode.Velocity, SpLib.util.conversions.EncoderConversions.RPMToTicksPer100ms(RPM, Constants.ShooterConstants.k_hoodGearRatio, Constants.ShooterConstants.encoderResolution));
   }
 
   public void SetFlyWheelPrecentOutput(double speed){
@@ -99,7 +103,23 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public double GetDistanceFromTarget(){ 
-    return SmartDashboard.getNumber(getName(), 0); //TODO: add a normal way to enter a distance
+    return SmartDashboard.getNumber("distance", 0); //TODO: add a normal way to enter a distance
+  }
+
+  public double CalculateRPMFromDistance(){
+    double DistanceX = GetDistanceFromTarget();
+    double V0x = DistanceX / 0.55;
+    double V0 = Math.toDegrees(Math.atan(6.56 / V0x));
+    double R = 0.1016;
+    double r = 0.073025;
+    double rpm = 60 * ((V0 / (Math.PI * (R + 2 * r))) * 1.2);
+    return rpm;
+  }
+
+  public double CalculateAngleFromDistance(){
+    double DistanceX = GetDistanceFromTarget();
+    double angle = Math.tanh((2.7/DistanceX) + 14);
+    return angle;
   }
 
   public void SetConveyorSpeed(double speed){
@@ -124,8 +144,8 @@ public class ShooterSubsystem extends SubsystemBase {
     m_Hood.setStatusFramePeriod(StatusFrame.Status_1_General, 250);
     m_Hood.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 15, 0, 0));
     m_Hood.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 5);
-    m_Hood.configForwardSoftLimitThreshold(SpLib.util.conversions.EncoderConversions.ticksToDegrees(31, Constants.ShooterConstants.hoodGearRatio, Constants.ShooterConstants.encoderResolution));
-    m_Hood.configReverseSoftLimitThreshold(SpLib.util.conversions.EncoderConversions.ticksToDegrees(-2, Constants.ShooterConstants.hoodGearRatio, Constants.ShooterConstants.encoderResolution));
+    m_Hood.configForwardSoftLimitThreshold(SpLib.util.conversions.EncoderConversions.ticksToDegrees(31, Constants.ShooterConstants.k_hoodGearRatio, Constants.ShooterConstants.encoderResolution));
+    m_Hood.configReverseSoftLimitThreshold(SpLib.util.conversions.EncoderConversions.ticksToDegrees(-2, Constants.ShooterConstants.k_hoodGearRatio, Constants.ShooterConstants.encoderResolution));
     m_Hood.overrideSoftLimitsEnable(false);
     //==========================================================================================================
     // shooter config's=========================

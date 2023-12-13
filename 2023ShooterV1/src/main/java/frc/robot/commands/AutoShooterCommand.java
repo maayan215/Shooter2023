@@ -5,6 +5,7 @@
 package frc.robot.commands;
 import SpLib.util.bool.filters.StableBoolean;
 import SpLib.util.conversions.UnitsConversions;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -30,30 +31,28 @@ public class AutoShooterCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double DistanceX = m_shooter.GetDistanceFromTarget();
+
+    double rpm = m_shooter.CalculateRPMFromDistance();
+    double angle = m_shooter.CalculateAngleFromDistance();
     
-    double V0x = DistanceX / 0.55;
-    double V0 = Math.toDegrees(Math.atan(6.56 / V0x));
-    double R = 0.1016;
-    double r = 0.073025;
-    double rpm = 60 * (V0 / (Math.PI * (R + 2 * r)));
+    m_shooter.SetFlywheelRPM(rpm);
+    m_shooter.SetHoodAngle(angle);
 
-    //m_shooter.SetFlyWheelRPM(rpm, ((r+R)/2));
-    targetRPM = UnitsConversions.RPMToMPS(rpm, r);
-    m_shooter.SetFlywheelRPM(targetRPM);
-
+    if (m_shooter.isFlyWheelAtTarget(rpm)){
+      m_shooter.SetConveyorSpeed(0.3);
+      m_shooter.readyToShoot = true;
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // m_shooter.Shoot();
-    ShooterSubsystem.readyToShoot = false;
+    m_shooter.SetFlywheelRPM(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_shooter.isFlyWheelAtTarget(targetRPM);
+    return false;
   }
 }

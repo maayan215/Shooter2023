@@ -25,7 +25,7 @@ public class HomeingCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_shooter.SetHoodPresetOutput(-0.2);
+    // m_shooter.SetHoodPresetOutput(-0.2);
     m_stableBoolean.reset();
     timer.reset();
     timer.start();
@@ -40,7 +40,7 @@ public class HomeingCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_shooter.ResetHood();
-    m_shooter.SetHoodPresetOutput(0);
+    // m_shooter.SetHoodPresetOutput(0);
     
   }
 

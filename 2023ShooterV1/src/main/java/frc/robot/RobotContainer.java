@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.commands.AutoShooterCommand;
 //import frc.robot.Constants.ShooterConstants;
 //import frc.robot.commands.AutoShooterCommand;
 import frc.robot.commands.HomeingCommand;
@@ -61,10 +62,8 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     
     // RB.onTrue(new HomeingCommand(m_ShooterSubsystem)); 
-    kX.whileTrue(new PresetShooterCommand(m_ShooterSubsystem, Constants.ShooterConstants.PresetAVelocity));
-    kY.whileTrue(new PresetShooterCommand(m_ShooterSubsystem, 2300));
-    kB.whileTrue(new PresetShooterCommand(m_ShooterSubsystem, 1900));
-    kA.whileTrue(new PresetShooterCommand(m_ShooterSubsystem, 1500));
+    kB.whileTrue(new AutoShooterCommand(m_ShooterSubsystem));
+    RB.onTrue(new HomeingCommand(m_ShooterSubsystem));
   }
 
   /**
