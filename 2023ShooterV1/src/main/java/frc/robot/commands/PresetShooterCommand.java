@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 //import frc.robot.Constants;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -14,10 +15,10 @@ public class PresetShooterCommand extends CommandBase {
   public double m_angle;
 
   /** Creates a new PresetShooterCommand. */
-  public PresetShooterCommand(ShooterSubsystem shooter, double RPM, double angle) {
+  public PresetShooterCommand(ShooterSubsystem shooter, double RPM) { // TODO: add angle back
     m_shooter = shooter;
     m_RPM = RPM;
-    m_angle = angle;
+    //m_angle = angle;
 
     addRequirements(m_shooter);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -32,13 +33,18 @@ public class PresetShooterCommand extends CommandBase {
   @Override
   public void execute() {
     m_shooter.SetFlywheelRPM(m_RPM);
-    //m_shooter.SetFlyWheelPrecentOutput(m_velocity);
-    m_shooter.SetHoodAngle(m_angle);
+    // m_shooter.SetHoodAngle(m_angle); TODO: add back angle control
+
+    if (m_shooter.isFlyWheelAtTarget(m_RPM)){
+      m_shooter.readyToShoot = true;
+      m_shooter.SetConveyorSpeed(0.3);
+    }
   }
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_shooter.SetFlywheelRPM(0);
+    m_shooter.SetConveyorSpeed(0);
   }
 
   // Returns true when the command should end.

@@ -16,6 +16,7 @@ import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
 
 import SpLib.util.bool.filters.StableBoolean;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -30,11 +31,9 @@ public class ShooterSubsystem extends SubsystemBase {
   public static Boolean readyToShoot= false;  
   Timer time = new Timer();
   private StableBoolean m_stableBoolean; 
-  
-  
+    
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem() {
-    
     //conveyor settings
     m_conveyor = new VictorSPX(53);
     m_conveyor.setInverted(true);
@@ -47,28 +46,26 @@ public class ShooterSubsystem extends SubsystemBase {
     motorConfig();
     pidConfig();
     
-    m_stableBoolean = new StableBoolean(Constants.ShooterConstants.stableBoolTimeThreshold);    
+    m_stableBoolean = new StableBoolean(Constants.ShooterConstants.stableBoolTimeThreshold);   
   }
-
-   @Override
+  
+  @Override
   public void periodic() {
     SmartDashboard.putNumber("FlyWheel RPM", GetFlywheelRPM());
     SmartDashboard.putNumber("Hood angle", GetHoodAngle());
     SmartDashboard.putNumber("flywheel ticls/100ms", m_FlyWheel.getSelectedSensorVelocity());
     SmartDashboard.putNumber("ClosedLoopError", m_FlywheelSlave.getClosedLoopError());
-
     SmartDashboard.putBoolean("Shoot", readyToShoot);
   }
 
   public double GetFlywheelRPM() { 
     return SpLib.util.conversions.EncoderConversions.ticksPer100msToRPM(m_FlyWheel.getSelectedSensorVelocity(), Constants.ShooterConstants.k_FlywheelGearRatio, Constants.ShooterConstants.encoderResolution);
-   }
+  }
 
   public double GetFlywheelTatgetRPM(){
     return m_FlyWheel.getClosedLoopTarget(); 
   }
 
-  
   public void SetFlywheelRPM(double RPM){
     m_FlyWheel.set(ControlMode.Velocity, SpLib.util.conversions.EncoderConversions.RPMToTicksPer100ms(RPM, Constants.ShooterConstants.k_FlywheelGearRatio, Constants.ShooterConstants.encoderResolution));
   }
@@ -99,28 +96,23 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public double GetHoodAngle() {
     return SpLib.util.conversions.EncoderConversions.ticksToDegrees(m_Hood.getSelectedSensorPosition(), Constants.ShooterConstants.k_FlywheelGearRatio, Constants.ShooterConstants.encoderResolution);
-    
   }
 
   public double GetDistanceFromTarget(){ 
     return SmartDashboard.getNumber(getName(), 0); //TODO: add a normal way to enter a distance
   }
 
-  public void Shoot(){
-    time.reset();
-    time.start();
-    if (!time.hasElapsed(0.5)){
-      m_conveyor.set(VictorSPXControlMode.PercentOutput, 0.3);
-      System.out.println("shoot!");
-    }else {
-      m_conveyor.set(VictorSPXControlMode.PercentOutput, 0.0);
-    }
-    readyToShoot = false;
+  public void SetConveyorSpeed(double speed){
+    m_conveyor.set(VictorSPXControlMode.PercentOutput, speed);
   }
 
+  /**
+   * 
+   * @param target the target the system is approching
+   * @return true when flywheel is at target
+   */
   public boolean isFlyWheelAtTarget(double target){
-     
-    return m_stableBoolean.get((GetFlywheelRPM() < target + Constants.ShooterConstants.AllowedRPMError) && (GetFlywheelRPM() > target - Constants.ShooterConstants.AllowedRPMError)); //TODO: check Target is same units as rpm;
+    return m_stableBoolean.get((GetFlywheelRPM() < target + Constants.ShooterConstants.AllowedRPMError) && (GetFlywheelRPM() > target - Constants.ShooterConstants.AllowedRPMError));
   }
 
   //==========================================================================================================
@@ -153,16 +145,14 @@ public class ShooterSubsystem extends SubsystemBase {
 }
 
 public void pidConfig(){
-
   m_Hood.config_kP(0, Constants.ShooterConstants.hood_pid_kp);
     m_Hood.config_kI(0, Constants.ShooterConstants.hood_pid_ki);
     m_Hood.config_kD(0, Constants.ShooterConstants.hood_pid_kd);
     m_Hood.config_kF(0, Constants.ShooterConstants.hood_pid_kf);
 
-    m_FlyWheel.config_kP(0, Constants.ShooterConstants.shooter_pid_kp);
-    m_FlyWheel.config_kI(0, Constants.ShooterConstants.shoter_pid_ki);
-    m_FlyWheel.config_kD(0, Constants.ShooterConstants.shoter_pid_kd);
-    m_FlyWheel.config_kF(0, Constants.ShooterConstants.shoter_pid_kf);
+    m_FlyWheel.config_kP(0, 0.2);
+    m_FlyWheel.config_kI(0, 0.0004);
+    m_FlyWheel.config_kD(0, 0.0);
 }
 
   public static ShooterSubsystem GetInstance(){

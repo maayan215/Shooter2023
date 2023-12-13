@@ -4,6 +4,10 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.ShooterSubsystem;
+
 //import com.ctre.phoenix.motorcontrol.NeutralMode;
 //import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 //import SpLib.hardware.motor_controller.TalonFXConstants;
@@ -27,7 +31,7 @@ public final class Constants {
     public static final double PresetYVelocity = 3500;
     public static final double PresetYAngle = 30;
     public static final double PresetAAngle = 35;
-    public static final double PresetAVelocity = 4000;
+    public static final double PresetAVelocity = 2000;
     public static final double PresetBAngle = 45;
     public static final double PresetBVelocity = 4500;
     
@@ -40,20 +44,13 @@ public final class Constants {
     public static final int FlywheelSlaveId = 61;
     public static final int HoodId = 62;
     public static final int ConvyorId = 53;
-    public static final double AllowedRPMError = 500;
+    public static final double AllowedRPMError = 50;
     public static final double encoderResolution = 2048;
     public static final double hoodGearRatio = 48;
 
-    public static Double k_FlywheelGearRatio = 48.0;
-    public static double stableBoolTimeThreshold = 0.25;
-    
-    // shooter pid def======
-    public static double shooter_pid_kp =0.5; 
-    public static double shoter_pid_ki = 0.0;
-    public static double shoter_pid_kd = 0.0;
-    public static double shoter_pid_kf=0.054;
-    
-    
+    public static Double k_FlywheelGearRatio = 1.0;
+    public static double stableBoolTimeThreshold = 1;
+  
     //========================
     // hood angel pid ===========
     public static double hood_pid_kp = 0.5;

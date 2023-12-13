@@ -47,7 +47,7 @@ public class AutoShooterCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooter.Shoot();
+    // m_shooter.Shoot();
     ShooterSubsystem.readyToShoot = false;
   }
 

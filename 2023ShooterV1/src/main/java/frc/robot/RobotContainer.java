@@ -29,10 +29,10 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static XboxController controller = new XboxController(1);
   // Configure the trigger bindings
-  JoystickButton Triangle = new JoystickButton(controller, XboxController.Button.kY.value);
-  JoystickButton Circle = new JoystickButton(controller, XboxController.Button.kB.value);
-  JoystickButton Square = new JoystickButton(controller, XboxController.Button.kX.value);
-  JoystickButton Cross = new JoystickButton(controller, XboxController.Button.kA.value);
+  JoystickButton kY = new JoystickButton(controller, XboxController.Button.kY.value);
+  JoystickButton kB = new JoystickButton(controller, XboxController.Button.kB.value);
+  JoystickButton kX = new JoystickButton(controller, XboxController.Button.kX.value);
+  JoystickButton kA = new JoystickButton(controller, XboxController.Button.kA.value);
   JoystickButton RB = new JoystickButton(controller, XboxController.Button.kRightBumper.value);
   JoystickButton LB = new JoystickButton(controller,XboxController.Button.kLeftBumper.value); 
 
@@ -60,9 +60,11 @@ public class RobotContainer {
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     
-    LB.onTrue(new HomeingCommand(m_ShooterSubsystem)); 
-    Square.onTrue(new PresetShooterCommand(m_ShooterSubsystem, 2000, 15));
-    
+    // RB.onTrue(new HomeingCommand(m_ShooterSubsystem)); 
+    kX.whileTrue(new PresetShooterCommand(m_ShooterSubsystem, Constants.ShooterConstants.PresetAVelocity));
+    kY.whileTrue(new PresetShooterCommand(m_ShooterSubsystem, 2300));
+    kB.whileTrue(new PresetShooterCommand(m_ShooterSubsystem, 1900));
+    kA.whileTrue(new PresetShooterCommand(m_ShooterSubsystem, 1500));
   }
 
   /**
