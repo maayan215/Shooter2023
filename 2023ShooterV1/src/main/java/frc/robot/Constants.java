@@ -54,8 +54,8 @@ public final class Constants {
     //========================
     // hood angel pid ===========
     public static double hood_pid_kp = 0.5;
-    public static double hood_pid_ki= 0.0; 
-    public static double hood_pid_kd=5.0;
+    public static double hood_pid_ki= 0.0001; 
+    public static double hood_pid_kd= 0.0;
     public static double hood_pid_kf = 0;
 
   }

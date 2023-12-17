@@ -82,7 +82,8 @@ public class EncoderConversions {
 
     /**
      * @param velocityTicksPer100ms Encoder Velocity Ticks per 100ms
-     * @param circumference Circumference of Wheel (Meters)
+     * @param circumference Circumference of Wheel (Meter2
+     * 321s)
      * @param gearRatio Gear Ratio between Encoder and Mechanism (set to 1 for Encoder RPM)
      * @param encoderResolution Encoder's Ticks Per Revolution (also known as PPR)
      * @return Velocity in Meters per Second

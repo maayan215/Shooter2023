@@ -4,6 +4,7 @@
 
 package frc.robot;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 //import edu.wpi.first.wpilibj.XboxController;
 //import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -62,8 +63,8 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     
     // RB.onTrue(new HomeingCommand(m_ShooterSubsystem)); 
-    kB.whileTrue(new AutoShooterCommand(m_ShooterSubsystem));
-    RB.onTrue(new HomeingCommand(m_ShooterSubsystem));
+    kA.whileTrue(new PresetShooterCommand(m_ShooterSubsystem, 2000));
+    
   }
 
   /**

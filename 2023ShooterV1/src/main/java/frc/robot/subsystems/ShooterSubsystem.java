@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
@@ -31,6 +32,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public static Boolean readyToShoot= false;  
   Timer time = new Timer();
   private StableBoolean m_stableBoolean; 
+  // PIDController m_FlywheelPIDController = new PIDController(1.577, 0, 0);
     
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem() {
@@ -43,11 +45,15 @@ public class ShooterSubsystem extends SubsystemBase {
     m_FlywheelSlave = new TalonFX(Constants.ShooterConstants.FlywheelSlaveId);
     m_Hood = new TalonFX(Constants.ShooterConstants.HoodId);
     
-    motorConfig();
-    pidConfig();
+    SmartDashboard.putNumber("P", 0.0);
+    SmartDashboard.putNumber("I", 0.0);
+    SmartDashboard.putNumber("D", 0.0);
     
     SmartDashboard.putNumber("distance", 5.2);
-
+    
+    motorConfig();
+    
+    
     m_stableBoolean = new StableBoolean(Constants.ShooterConstants.stableBoolTimeThreshold);   
   }
   
@@ -60,6 +66,9 @@ public class ShooterSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("Shoot", readyToShoot);
     SmartDashboard.putNumber("autoAngle", CalculateAngleFromDistance());
     SmartDashboard.putNumber("autoRPM", CalculateRPMFromDistance());
+    
+    pidConfig();
+
   }
 
   public double GetFlywheelRPM() { 
@@ -71,7 +80,8 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void SetFlywheelRPM(double RPM){
-    m_FlyWheel.set(ControlMode.Velocity, SpLib.util.conversions.EncoderConversions.RPMToTicksPer100ms(RPM, Constants.ShooterConstants.k_hoodGearRatio, Constants.ShooterConstants.encoderResolution));
+    m_FlyWheel.set(TalonFXControlMode.Velocity, SpLib.util.conversions.EncoderConversions.RPMToTicksPer100ms(RPM+400,Constants.ShooterConstants.k_FlywheelGearRatio, Constants.ShooterConstants.encoderResolution));
+    // m_FlyWheel.set(ControlMode.Velocity, m_FlywheelPIDController.calculate(GetFlywheelRPM(), RPM));
   }
 
   public void SetFlyWheelPrecentOutput(double speed){
@@ -170,9 +180,15 @@ public void pidConfig(){
     m_Hood.config_kD(0, Constants.ShooterConstants.hood_pid_kd);
     m_Hood.config_kF(0, Constants.ShooterConstants.hood_pid_kf);
 
-    m_FlyWheel.config_kP(0, 0.2);
-    m_FlyWheel.config_kI(0, 0.0004);
-    m_FlyWheel.config_kD(0, 0.0);
+    
+    m_FlyWheel.config_kP(0, SmartDashboard.getNumber("P", 0.0));
+    m_FlyWheel.config_kI(0, SmartDashboard.getNumber("I", 0.0));
+    m_FlyWheel.config_kD(0, SmartDashboard.getNumber("D", 0.0));
+    m_FlyWheel.config_kF(0, 0.0);
+    
+
+
+
 }
 
   public static ShooterSubsystem GetInstance(){
