@@ -26,7 +26,6 @@ public class AutoShooterCommand extends CommandBase {
   @Override
   public void initialize() {
     m_stableBoolean.reset();
-    SmartDashboard.putBoolean("AutoShoot", true);
   } 
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -36,16 +35,16 @@ public class AutoShooterCommand extends CommandBase {
     double rpm = m_shooter.CalculateRPMFromDistance();
     double angle = m_shooter.CalculateAngleFromDistance();
     
-    //m_shooter.SetFlywheelRPM(rpm);
-    //m_shooter.SetHoodAngle(angle);
+    // m_shooter.SetFlywheelRPM(rpm);
+    //m_shooter.SetHoodAngle(angle);  TODO: add back motors
 
-    SmartDashboard.putNumber("rpm", rpm);
-    SmartDashboard.putNumber("angle", angle);
+    SmartDashboard.putNumber("targetRPM", rpm);
+    SmartDashboard.putNumber("angleRPM", angle);
 
-    if (m_shooter.isFlyWheelAtTarget(rpm)){
-      m_shooter.SetConveyorSpeed(0.3);
-      m_shooter.readyToShoot = true;
-    }
+    // if (m_shooter.isFlyWheelAtTarget(rpm)){
+    //   m_shooter.SetConveyorSpeed(0.3);
+    //   // m_shooter.readyToShoot = true;
+    // }
   }
 
   // Called once the command ends or is interrupted.

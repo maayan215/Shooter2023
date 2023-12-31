@@ -29,7 +29,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private TalonFX m_FlywheelSlave;
   private TalonFX m_Hood;
   private final VictorSPX m_conveyor;
-  public static Boolean readyToShoot= false;  
+  //public static Boolean readyToShoot= false;  
   Timer time = new Timer();
   private StableBoolean m_stableBoolean; 
   // PIDController m_FlywheelPIDController = new PIDController(1.577, 0, 0);
@@ -45,7 +45,7 @@ public class ShooterSubsystem extends SubsystemBase {
     m_FlywheelSlave = new TalonFX(Constants.ShooterConstants.FlywheelSlaveId);
     m_Hood = new TalonFX(Constants.ShooterConstants.HoodId);
     
-    SmartDashboard.putNumber("P", 0.0);
+    SmartDashboard.putNumber("P", 0.2);
     SmartDashboard.putNumber("I", 0.0);
     SmartDashboard.putNumber("D", 0.0);
     
@@ -62,8 +62,7 @@ public class ShooterSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("FlyWheel RPM", GetFlywheelRPM());
     SmartDashboard.putNumber("Hood angle", GetHoodAngle());
     SmartDashboard.putNumber("flywheel ticls/100ms", m_FlyWheel.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("ClosedLoopError", m_FlywheelSlave.getClosedLoopError());
-    SmartDashboard.putBoolean("Shoot", readyToShoot);
+    //SmartDashboard.putBoolean("Shoot", readyToShoot);
     SmartDashboard.putNumber("autoAngle", CalculateAngleFromDistance());
     SmartDashboard.putNumber("autoRPM", CalculateRPMFromDistance());
     
@@ -80,7 +79,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void SetFlywheelRPM(double RPM){
-    m_FlyWheel.set(TalonFXControlMode.Velocity, SpLib.util.conversions.EncoderConversions.RPMToTicksPer100ms(RPM+400,Constants.ShooterConstants.k_FlywheelGearRatio, Constants.ShooterConstants.encoderResolution));
+    m_FlyWheel.set(TalonFXControlMode.Velocity, SpLib.util.conversions.EncoderConversions.RPMToTicksPer100ms(RPM,Constants.ShooterConstants.k_FlywheelGearRatio, Constants.ShooterConstants.encoderResolution));
     // m_FlyWheel.set(ControlMode.Velocity, m_FlywheelPIDController.calculate(GetFlywheelRPM(), RPM));
   }
 
@@ -113,7 +112,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public double GetDistanceFromTarget(){ 
-    return SmartDashboard.getNumber("distance", 0); //TODO: add a normal way to enter a distance
+    return SmartDashboard.getNumber("distance", 3); //TODO: add a normal way to enter a distance
   }
 
   public double CalculateRPMFromDistance(){
@@ -152,7 +151,7 @@ public class ShooterSubsystem extends SubsystemBase {
     m_Hood.enableVoltageCompensation(true);
     m_Hood.configVoltageCompSaturation(12);
     m_Hood.setStatusFramePeriod(StatusFrame.Status_1_General, 250);
-    m_Hood.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 15, 0, 0));
+    m_Hood.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 35, 0, 0));
     m_Hood.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 5);
     m_Hood.configForwardSoftLimitThreshold(SpLib.util.conversions.EncoderConversions.ticksToDegrees(31, Constants.ShooterConstants.k_hoodGearRatio, Constants.ShooterConstants.encoderResolution));
     m_Hood.configReverseSoftLimitThreshold(SpLib.util.conversions.EncoderConversions.ticksToDegrees(-2, Constants.ShooterConstants.k_hoodGearRatio, Constants.ShooterConstants.encoderResolution));

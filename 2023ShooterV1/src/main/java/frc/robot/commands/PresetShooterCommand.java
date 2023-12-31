@@ -36,7 +36,7 @@ public class PresetShooterCommand extends CommandBase {
     // m_shooter.SetHoodAngle(m_angle); TODO: add back angle control
 
     if (m_shooter.isFlyWheelAtTarget(m_RPM)){
-      m_shooter.readyToShoot = true;
+      //m_shooter.readyToShoot = true;
       m_shooter.SetConveyorSpeed(0.3);
     }
   }

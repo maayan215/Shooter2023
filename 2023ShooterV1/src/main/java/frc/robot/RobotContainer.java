@@ -62,9 +62,10 @@ public class RobotContainer {
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     
-    // RB.onTrue(new HomeingCommand(m_ShooterSubsystem)); 
-    kA.whileTrue(new PresetShooterCommand(m_ShooterSubsystem, 2000));
-    
+    // kA.whileTrue(new PresetShooterCommand(m_ShooterSubsystem, 2000));
+    // kB.whileTrue(new InstantCommand(()-> {m_ShooterSubsystem.SetFlywheelRPM(2000);}));
+    kA.whileTrue(new AutoShooterCommand(m_ShooterSubsystem));
+
   }
 
   /**

@@ -44,7 +44,7 @@ public final class Constants {
     public static final int FlywheelSlaveId = 61;
     public static final int HoodId = 62;
     public static final int ConvyorId = 53;
-    public static final double AllowedRPMError = 50;
+    public static final double AllowedRPMError = 10;
     public static final double encoderResolution = 2048;
     public static final double k_hoodGearRatio = 48;
 
