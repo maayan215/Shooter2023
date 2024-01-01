@@ -146,35 +146,42 @@ public class ShooterSubsystem extends SubsystemBase {
 
   //==========================================================================================================
   private void motorConfig(){
-    m_Hood.setNeutralMode(NeutralMode.Coast);
-    m_Hood.setInverted(TalonFXInvertType.Clockwise);
-    m_Hood.enableVoltageCompensation(true);
-    m_Hood.configVoltageCompSaturation(12);
-    m_Hood.setStatusFramePeriod(StatusFrame.Status_1_General, 250);
-    m_Hood.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 35, 0, 0));
-    m_Hood.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 5);
-    m_Hood.configForwardSoftLimitThreshold(SpLib.util.conversions.EncoderConversions.ticksToDegrees(31, Constants.ShooterConstants.k_hoodGearRatio, Constants.ShooterConstants.encoderResolution));
-    m_Hood.configReverseSoftLimitThreshold(SpLib.util.conversions.EncoderConversions.ticksToDegrees(-2, Constants.ShooterConstants.k_hoodGearRatio, Constants.ShooterConstants.encoderResolution));
-    m_Hood.overrideSoftLimitsEnable(false);
-    //==========================================================================================================
-    // shooter config's=========================
-    m_FlyWheel.setInverted(true);
-    m_FlyWheel.enableVoltageCompensation(true);
-    m_FlyWheel.configVoltageCompSaturation(12, 100);
-    m_FlyWheel.configVelocityMeasurementPeriod(SensorVelocityMeasPeriod.Period_2Ms, 1);
-    m_FlyWheel.setStatusFramePeriod(StatusFrame.Status_1_General, 250, 0);
-    m_FlyWheel.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 5, 0);
-    m_FlyWheel.configOpenloopRamp(0.25);
-    m_FlyWheel.configPeakOutputForward(1);
-    m_FlyWheel.configPeakOutputReverse(0);
-    m_FlywheelSlave.set(ControlMode.Follower, m_FlyWheel.getDeviceID());
-    m_FlywheelSlave.setInverted(TalonFXInvertType.OpposeMaster);
-    m_FlywheelSlave.setStatusFramePeriod(StatusFrame.Status_1_General, 250, 0);
-  //==========================================================================================================
+      m_Hood.setInverted(TalonFXInvertType.Clockwise);
+      m_Hood.setNeutralMode(NeutralMode.Brake);
+      m_Hood.configAllowableClosedloopError(Constants.ShooterConstants.PIDslot,SpLib.util.conversions.EncoderConversions.ticksToDegrees(0.5, Constants.ShooterConstants.k_hoodGearRatio, Constants.ShooterConstants.encoderResolution));
+      m_Hood.enableVoltageCompensation(true);
+      m_Hood.configVoltageCompSaturation(12);
+      m_Hood.setStatusFramePeriod(StatusFrame.Status_1_General, 250);
+      m_Hood.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 15, 0, 0));
+      m_Hood.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 5);
+      m_Hood.setSelectedSensorPosition(0);
+      m_Hood.configForwardSoftLimitThreshold(SpLib.util.conversions.EncoderConversions.ticksToDegrees(31, Constants.ShooterConstants.k_hoodGearRatio, Constants.ShooterConstants.encoderResolution));
+      m_Hood.configReverseSoftLimitThreshold(SpLib.util.conversions.EncoderConversions.ticksToDegrees(-2, Constants.ShooterConstants.k_hoodGearRatio, Constants.ShooterConstants.encoderResolution));
+      m_Hood.overrideSoftLimitsEnable(false);
+      //=====================================================
+      // shooter config's=========================
+      m_FlyWheel.configFactoryDefault();
+      m_FlyWheel.setInverted(TalonFXInvertType.Clockwise);
+      m_FlyWheel.setNeutralMode(NeutralMode.Coast);
+      m_FlyWheel.enableVoltageCompensation(true);
+      m_FlyWheel.configVoltageCompSaturation(12, 100);
+      m_FlyWheel.configVelocityMeasurementPeriod(SensorVelocityMeasPeriod.Period_2Ms, 1);
+      m_FlyWheel.setStatusFramePeriod(StatusFrame.Status_1_General, 250, 0);
+      m_FlyWheel.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 5, 0);
+      m_FlyWheel.configOpenloopRamp(0.25);
+      m_FlyWheel.configPeakOutputForward(1);
+      m_FlyWheel.configPeakOutputReverse(0);
+      m_FlywheelSlave.configFactoryDefault();
+      m_FlywheelSlave.follow(m_FlyWheel);
+      m_FlywheelSlave.setInverted(TalonFXInvertType.OpposeMaster);
+      m_FlywheelSlave.setNeutralMode(NeutralMode.Coast);
+      m_FlywheelSlave.setStatusFramePeriod(StatusFrame.Status_1_General, 250, 0);
+
+
 }
 
 public void pidConfig(){
-  m_Hood.config_kP(0, Constants.ShooterConstants.hood_pid_kp);
+    m_Hood.config_kP(0, Constants.ShooterConstants.hood_pid_kp);
     m_Hood.config_kI(0, Constants.ShooterConstants.hood_pid_ki);
     m_Hood.config_kD(0, Constants.ShooterConstants.hood_pid_kd);
     m_Hood.config_kF(0, Constants.ShooterConstants.hood_pid_kf);

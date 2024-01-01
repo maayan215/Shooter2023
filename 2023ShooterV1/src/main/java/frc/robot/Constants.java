@@ -35,7 +35,8 @@ public final class Constants {
     public static final double PresetBAngle = 45;
     public static final double PresetBVelocity = 4500;
     
-    
+    public static final int PIDslot = 1;
+
     public static final double HoodCurrentLimit = 9;
     public static final double FlywheelCurrentLimit = 0;
 
